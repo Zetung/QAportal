@@ -1,5 +1,6 @@
 package com.Zetung.QAportal.config;
 
+import com.Zetung.QAportal.model.Permission;
 import com.Zetung.QAportal.model.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,9 +9,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -24,9 +28,9 @@ public class SecurityConfig {
           http
                   .authorizeHttpRequests()
                   .antMatchers("/").permitAll()
-                  .antMatchers(HttpMethod.GET, "/api/**").hasAnyRole(Role.USER.name())
-                  .antMatchers(HttpMethod.POST, "/api/**").hasAnyRole(Role.USER.name())
-                  .antMatchers(HttpMethod.DELETE, "/api/**").hasAnyRole(Role.USER.name())
+                  .antMatchers(HttpMethod.GET, "/api/**").hasAnyRole(Permission.USER_READ.getPermission())
+                  .antMatchers(HttpMethod.POST, "/api/**").hasAnyRole(Permission.USER_WRITE.getPermission())
+                  .antMatchers(HttpMethod.DELETE, "/api/**").hasAnyRole(Permission.USER_WRITE.getPermission())
                   .anyRequest()
                   .authenticated()
                   .and()
@@ -34,8 +38,14 @@ public class SecurityConfig {
           return http.build();
      }
 
-     protected UserDetailsService userDetailsService(){
-          return null;
+     @Bean
+     public InMemoryUserDetailsManager userDetailsService() {
+          UserDetails user = User.builder()
+                  .username("user")
+                  .password(passwordEncoder().encode("user"))
+                  .authorities(Role.USER.getAuthorities())
+                  .build();
+          return new InMemoryUserDetailsManager(user);
      }
 
      protected PasswordEncoder passwordEncoder(){
