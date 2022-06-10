@@ -1,6 +1,7 @@
 package com.Zetung.QAportal.rest;
 
 import com.Zetung.QAportal.model.UserCustomer;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,16 +23,20 @@ public class UserCustomerRC {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('user:read')")
     public UserCustomer getById(@PathVariable int id){
         return userCustomers.stream().filter(userCustomer -> userCustomer.getId() == id).findFirst().orElse(null);
     }
 
+    @PostMapping
+    @PreAuthorize("hasAuthority('user:write')")
     public UserCustomer create(@RequestBody UserCustomer userCustomer){
         this.userCustomers.add(userCustomer);
         return userCustomer;
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('user:write')")
     public void deleteById(@PathVariable int id){
         this.userCustomers.removeIf(userCustomer -> userCustomer.getId() == id);
     }

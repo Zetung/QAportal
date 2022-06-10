@@ -5,6 +5,7 @@ import com.Zetung.QAportal.model.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
@@ -21,6 +22,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
      @Bean
@@ -28,9 +30,9 @@ public class SecurityConfig {
           http
                   .authorizeHttpRequests()
                   .antMatchers("/").permitAll()
-                  .antMatchers(HttpMethod.GET, "/api/**").hasAnyRole(Permission.USER_READ.getPermission())
-                  .antMatchers(HttpMethod.POST, "/api/**").hasAnyRole(Permission.USER_WRITE.getPermission())
-                  .antMatchers(HttpMethod.DELETE, "/api/**").hasAnyRole(Permission.USER_WRITE.getPermission())
+//                  .antMatchers(HttpMethod.GET, "/api/**").hasAnyRole(Permission.USER_READ.getPermission())
+//                  .antMatchers(HttpMethod.POST, "/api/**").hasAnyRole(Permission.USER_WRITE.getPermission())
+//                  .antMatchers(HttpMethod.DELETE, "/api/**").hasAnyRole(Permission.USER_WRITE.getPermission())
                   .anyRequest()
                   .authenticated()
                   .and()
