@@ -47,15 +47,15 @@ public class SecurityConfig {
           return http.build();
      }
 
-     @Bean
-     public InMemoryUserDetailsManager userDetailsService() {
-          UserDetails user = User.builder()
-                  .username("user")
-                  .password(passwordEncoder().encode("user"))
-                  .authorities(Role.USER.getAuthorities())
-                  .build();
-          return new InMemoryUserDetailsManager(user);
-     }
+//     @Bean
+//     public InMemoryUserDetailsManager userDetailsService() {
+//          UserDetails user = User.builder()
+//                  .username("user")
+//                  .password(passwordEncoder().encode("user"))
+//                  .authorities(Role.USER.getAuthorities())
+//                  .build();
+//          return new InMemoryUserDetailsManager(user);
+//     }
 
      @Bean
      protected PasswordEncoder passwordEncoder(){
@@ -66,7 +66,7 @@ public class SecurityConfig {
      protected DaoAuthenticationProvider daoAuthenticationProvider(){
           DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
           daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-          daoAuthenticationProvider.setUserDetailsService(userDetailsService());
+          daoAuthenticationProvider.setUserDetailsService(userDetailsService);
           return daoAuthenticationProvider;
 
      }
