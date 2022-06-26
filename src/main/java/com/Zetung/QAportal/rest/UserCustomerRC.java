@@ -14,8 +14,8 @@ import java.util.stream.Stream;
 public class UserCustomerRC {
     private List<UserCustomer> userCustomers = Stream.of(
             new UserCustomer(1,"John","Doe","prot@gmail.com","asdas","+0756667788", Role.USER),
-            new UserCustomer(2,"John1","Doe1","prot1@gmail.com","+1756667788","asdas1", Role.USER),
-            new UserCustomer(3,"John2","Doe2","prot2@gmail.com","+2756667788","asdas2", Role.USER)
+            new UserCustomer(2,"John1","Doe1","prot1@gmail.com","asdas1","+1756667788", Role.USER),
+            new UserCustomer(3,"John2","Doe2","prot2@gmail.com","asdas2","+2756667788", Role.USER)
     ).collect(Collectors.toList());
 
     @GetMapping
